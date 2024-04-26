@@ -1,9 +1,13 @@
 package com.invio.shoppingdemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,4 +32,8 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @JsonBackReference
+    @OneToMany(cascade = CascadeType.ALL , mappedBy = "user")
+    private List<Address> addressList = new ArrayList<>();
 }
