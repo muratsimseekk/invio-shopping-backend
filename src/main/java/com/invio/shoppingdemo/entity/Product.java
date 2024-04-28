@@ -38,13 +38,29 @@ public class Product {
     @Column(name = "description")
     private String description;
 
+    @ElementCollection
+    @Column(name = "features")
+    private List<String> features;
+
     @Column(name = "availability")
     private Boolean availability;
 
     @Column(name = "stock")
     private Double stock;
 
+    @ElementCollection
+    @Column(name = "features")
+    private Map<String , Integer> dimensions;
+
     @Column(name = "weight")
     private Double weight;
+
+    @ElementCollection
+    @Column(name = "colors")
+    private List<String> colors;
+
+    @ManyToOne
+    @JoinColumn(name = "basket_id")
+    private Basket basket;
 
 }
