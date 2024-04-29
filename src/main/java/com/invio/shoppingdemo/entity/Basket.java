@@ -22,8 +22,6 @@ public class Basket {
 
     @JsonBackReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE , CascadeType.REFRESH , CascadeType.DETACH}, mappedBy = "basket")
-    private List<Product> productList = new ArrayList<>();
-
-
+    private List<Product> productList  =new ArrayList<>();
 
 }

@@ -2,8 +2,10 @@ package com.invio.shoppingdemo.service;
 
 import com.invio.shoppingdemo.dto.BasketResponse;
 import com.invio.shoppingdemo.entity.Basket;
+import com.invio.shoppingdemo.entity.Product;
 import com.invio.shoppingdemo.exceptions.CommonException;
 import com.invio.shoppingdemo.repository.BasketRepository;
+import com.invio.shoppingdemo.repository.ProductRepository;
 import com.invio.shoppingdemo.util.BasketDtoConvertion;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,11 +18,12 @@ import java.util.Optional;
 public class BasketServiceImpl implements BasketService{
 
     private BasketRepository basketRepository;
+    private ProductRepository productRepository;
     @Override
-    public Basket save(Basket basket) {
-        return basketRepository.save(basket);
+    public BasketResponse save(Basket basket) {
+        basketRepository.save(basket);
+        return BasketDtoConvertion.converBasket(basket);
     }
-
 
     @Override
     public BasketResponse delete(Long id) {
@@ -31,7 +34,6 @@ public class BasketServiceImpl implements BasketService{
             basketRepository.delete(optional.get());
             return BasketDtoConvertion.converBasket(optional.get());
         }
-
         throw new CommonException("Ilgili ID de Basket bulunamadi. ID : " +id , HttpStatus.NOT_FOUND);
     }
 
@@ -55,5 +57,21 @@ public class BasketServiceImpl implements BasketService{
         }
 
         throw new CommonException("Ilgili ID de Basket bulunamadi. ID : " +id , HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public BasketResponse addToCart(Long basketID, Long productID) {
+        Basket basket = basketRepository.findById(basketID)
+                .orElseThrow(()->new CommonException("Basket bulunamadi . ID : "+basketID , HttpStatus.NOT_FOUND));
+        Product product = productRepository.findById(productID)
+                .orElseThrow(()-> new CommonException("Product bulunamadi. ID : "+productID,HttpStatus.NOT_FOUND));
+
+        basket.getProductList().add(product);
+        product.setBasket(basket);
+        //TODO eger ayni ID li product var ise sayisini artir yoksa ekle .
+
+        basketRepository.save(basket);
+
+        return BasketDtoConvertion.converBasket(basket);
     }
 }

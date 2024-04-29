@@ -7,7 +7,6 @@ import com.invio.shoppingdemo.service.BasketService;
 import com.invio.shoppingdemo.service.ProductService;
 import com.invio.shoppingdemo.util.BasketDtoConvertion;
 import lombok.AllArgsConstructor;
-import org.hibernate.type.descriptor.java.LocaleJavaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,8 +22,9 @@ public class BasketController {
     }
 
     @PostMapping("/")
-    public Basket save(@RequestBody Basket basket){
+    public BasketResponse save(@RequestBody Basket basket){
         return basketService.save(basket);
+
     }
 
     @DeleteMapping("/{id}")
@@ -32,16 +32,10 @@ public class BasketController {
         return basketService.delete(id);
     }
 
-    @PostMapping("/{basketID}/{productID}")
-    public Basket addToCart(@PathVariable Long basketID, @PathVariable Long productID){
+    @PostMapping("/{basketID}/addToCart/{productID}")
+    public BasketResponse addToCart(@PathVariable Long basketID, @PathVariable Long productID){
 
-        Basket basket1 = basketService.findByBasketId(basketID);
-
-        Product product = productService.findByProductId(productID);
-
-        basket1.getProductList().add(product);
-        return basketService.save(basket1);
-
+        return basketService.addToCart(basketID, productID);
     }
 
 }

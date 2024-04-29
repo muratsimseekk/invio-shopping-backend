@@ -6,14 +6,13 @@ import com.invio.shoppingdemo.entity.Product;
 
 public interface BasketService {
 
-    Basket save(Basket basket);
+    BasketResponse save(Basket basket);
     BasketResponse delete(Long id);
 
     BasketResponse findById(Long id);
 
     Basket findByBasketId(Long id);
 
-
-
+    BasketResponse addToCart(Long basketID , Long productID);
 
 }
