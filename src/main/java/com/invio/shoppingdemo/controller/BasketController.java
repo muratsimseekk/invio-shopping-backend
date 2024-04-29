@@ -38,4 +38,9 @@ public class BasketController {
         return basketService.addToCart(basketID, productID);
     }
 
+    @DeleteMapping("/{basketID}/removeFromCart/{productID}")
+    public BasketResponse removeFromCart(@PathVariable Long basketID, @PathVariable Long productID){
+        return basketService.removeFromCart(basketID, productID);
+    }
+
 }

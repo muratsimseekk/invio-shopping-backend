@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -74,4 +76,32 @@ public class BasketServiceImpl implements BasketService{
 
         return BasketDtoConvertion.converBasket(basket);
     }
+
+    @Override
+    public BasketResponse removeFromCart(Long basketID, Long productID) {
+        Basket basket = basketRepository.findById(basketID)
+                .orElseThrow(()->new CommonException("Basket bulunamadi . ID : "+basketID , HttpStatus.NOT_FOUND));
+
+        boolean removed = false;
+        Iterator<Product> iterator = basket.getProductList().iterator();
+        while (iterator.hasNext()) {
+            Product product1 = iterator.next();
+            if (Objects.equals(productID, product1.getId())) {
+                iterator.remove();
+                removed = true;
+                break;
+            }
+        }
+
+        if (!removed) {
+            throw new CommonException("Cikarilacak product bulunamadi . ID : " + productID, HttpStatus.NOT_FOUND);
+        }
+
+        basketRepository.save(basket);
+        return BasketDtoConvertion.converBasket(basket);
+
+
+    }
+
+
 }

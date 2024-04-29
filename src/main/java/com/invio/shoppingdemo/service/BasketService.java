@@ -15,4 +15,6 @@ public interface BasketService {
 
     BasketResponse addToCart(Long basketID , Long productID);
 
+    BasketResponse removeFromCart(Long basketID , Long productID);
+
 }
