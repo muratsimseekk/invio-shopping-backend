@@ -48,6 +48,8 @@ public class Product {
     @Column(name = "stock")
     private Double stock;
 
+    private Integer count = 0;
+
     @ElementCollection
     @Column(name = "features")
     private Map<String , Integer> dimensions;

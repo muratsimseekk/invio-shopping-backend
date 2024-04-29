@@ -64,46 +64,69 @@ public class BasketServiceImpl implements BasketService{
     @Override
     public BasketResponse addToCart(Long basketID, Long productID) {
         Basket basket = basketRepository.findById(basketID)
-                .orElseThrow(()->new CommonException("Basket bulunamadi . ID : "+basketID , HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CommonException("Basket bulunamadi . ID : " + basketID, HttpStatus.NOT_FOUND));
         Product product = productRepository.findById(productID)
-                .orElseThrow(()-> new CommonException("Product bulunamadi. ID : "+productID,HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CommonException("Product bulunamadi. ID : " + productID, HttpStatus.NOT_FOUND));
 
         basket.getProductList().add(product);
         product.setBasket(basket);
-        //TODO eger ayni ID li product var ise sayisini artir yoksa ekle .
 
+        if (product.getCount() == null) {
+            product.setCount(1);
+        } else {
+            product.setCount(product.getCount() + 1);
+        }
+
+        // Toplam fiyatı hesaplama logic .
+        Double totalPrice = 0.0;
+        for (Product product1 : basket.getProductList()) {
+            totalPrice += product1.getPrice() * product1.getCount();
+        }
+        basket.setTotalPrice(totalPrice);
+
+        // Sepeti kaydet logic .
         basketRepository.save(basket);
 
         return BasketDtoConvertion.converBasket(basket);
     }
 
+
     @Override
     public BasketResponse removeFromCart(Long basketID, Long productID) {
         Basket basket = basketRepository.findById(basketID)
-                .orElseThrow(()->new CommonException("Basket bulunamadi . ID : "+basketID , HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CommonException("Basket bulunamadi . ID : " + basketID, HttpStatus.NOT_FOUND));
 
         boolean removed = false;
         Iterator<Product> iterator = basket.getProductList().iterator();
         while (iterator.hasNext()) {
             Product product1 = iterator.next();
-            if (Objects.equals(productID, product1.getId())) {
-                iterator.remove();
-                removed = true;
+            if (product1.getId() == productID) {
+                if (product1.getCount() == 1) {
+                    iterator.remove();
+                    removed = true;
+                } else {
+                    product1.setCount(product1.getCount() - 1);
+                    removed = true;
+                }
                 break;
             }
         }
-
-        //TODO eger bir Productin birden fazla adedi varsa 1 cikar . Sadece 1 tane varsa remove et .
 
         if (!removed) {
             throw new CommonException("Cikarilacak product bulunamadi . ID : " + productID, HttpStatus.NOT_FOUND);
         }
 
+        // Toplam fiyatı güncelle
+        double totalPrice = 0.0;
+        for (Product product : basket.getProductList()) {
+            totalPrice += product.getPrice() * product.getCount();
+        }
+        basket.setTotalPrice(totalPrice);
+
         basketRepository.save(basket);
         return BasketDtoConvertion.converBasket(basket);
-
-
     }
+
 
 
 }
