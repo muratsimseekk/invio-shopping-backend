@@ -2,5 +2,5 @@ package com.invio.shoppingdemo.dto;
 
 import java.util.List;
 
-public record BasketResponse(Long id , List<ProductResponse> product_list) {
+public record BasketResponse(Long id , List<ProductResponse> product_list , List<SummaryResponse> summaryResponse , Double total_price) {
 }

@@ -12,13 +12,15 @@ public class BasketDtoConvertion {
         List<BasketResponse> basketResponses = new ArrayList<>();
 
         basketList.stream().forEach(basket -> basketResponses.add(new BasketResponse(basket.getId()
-                ,ProductDtoConvertion.convertProductList(basket.getProductList()))));
+                ,ProductDtoConvertion.convertProductList(basket.getProductList())
+                ,SummaryDtoConvertion.convertSummaryList(basket.getProductList()) , basket.getTotalPrice())));
 
         return basketResponses;
     }
 
     public static BasketResponse converBasket(Basket basket){
-        return new BasketResponse(basket.getId(), ProductDtoConvertion.convertProductList(basket.getProductList()));
+        return new BasketResponse(basket.getId(), ProductDtoConvertion.convertProductList(basket.getProductList())
+                ,SummaryDtoConvertion.convertSummaryList(basket.getProductList()), basket.getTotalPrice());
     }
 
 
