@@ -93,6 +93,8 @@ public class BasketServiceImpl implements BasketService{
             }
         }
 
+        //TODO eger bir Productin birden fazla adedi varsa 1 cikar . Sadece 1 tane varsa remove et .
+
         if (!removed) {
             throw new CommonException("Cikarilacak product bulunamadi . ID : " + productID, HttpStatus.NOT_FOUND);
         }
