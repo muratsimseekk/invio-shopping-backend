@@ -27,4 +27,8 @@ public class Basket {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE , CascadeType.REFRESH , CascadeType.DETACH}, mappedBy = "basket")
     private List<Product> productList  =new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name = "orderEn_id")
+    private OrderEn orderEn;
+
 }
