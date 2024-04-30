@@ -1,5 +1,6 @@
 package com.invio.shoppingdemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +17,7 @@ public class OrderEn {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
+    @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL , mappedBy = "orderEn")
     private Basket basket;
 }

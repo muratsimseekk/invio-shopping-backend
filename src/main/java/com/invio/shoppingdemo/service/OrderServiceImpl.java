@@ -5,9 +5,11 @@ import com.invio.shoppingdemo.entity.OrderEn;
 import com.invio.shoppingdemo.repository.OrderRepository;
 import com.invio.shoppingdemo.util.OrderDtoConvertion;
 import lombok.AllArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -27,6 +29,15 @@ public class OrderServiceImpl implements OrderService{
 
         List<OrderEn> orderEnList = orderRepository.findAll();
         return OrderDtoConvertion.convertOrderList(orderEnList);
+
+    }
+
+    @Override
+    public void delete(Long id) {
+        Optional<OrderEn> orderEn = orderRepository.findById(id);
+
+        orderEn.ifPresent(en -> orderRepository.delete(en));
+
 
     }
 }

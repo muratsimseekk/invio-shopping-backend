@@ -33,8 +33,16 @@ public class OrderController {
         Basket basket = basketService.findByBasketId(basketID);
 
         orderEn.setBasket(basket);
+        basket.setOrderEn(orderEn);
 
         return orderService.save(orderEn);
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id){
+         orderService.delete(id);
+
+         return "Order silindi " + id;
     }
 
 }
