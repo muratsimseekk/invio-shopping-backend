@@ -15,12 +15,15 @@ public class OrderDtoConvertion {
         List<OrderResponse> responseList = new ArrayList<>();
 
         orderEnList.stream().forEach(order -> responseList.add(new OrderResponse(order.getId()
-                ,order.getBasket().getProductList(),order.getBasket().getTotalPrice())));
+                ,OrderPrDtoConvertion.convertPrOrderList(order.getBasket().getProductList())
+                ,order.getBasket().getTotalPrice())));
         return responseList;
     }
+
     public static OrderResponse converOrder(OrderEn order){
 
-        return new OrderResponse(order.getId() , order.getBasket().getProductList() , order.getBasket().getTotalPrice());
+        return new OrderResponse(order.getId() ,OrderPrDtoConvertion.convertPrOrderList(order.getBasket().getProductList())
+                , order.getBasket().getTotalPrice());
     }
 
 }
