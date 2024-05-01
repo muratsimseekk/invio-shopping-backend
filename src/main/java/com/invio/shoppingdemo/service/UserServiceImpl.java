@@ -7,9 +7,6 @@ import com.invio.shoppingdemo.repository.UserRepository;
 import com.invio.shoppingdemo.util.UserDtoConvertion;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
 
@@ -76,7 +73,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             existingUser.setName(name);
             existingUser.setSurname(surname);
             existingUser.setEmail(email);
-            existingUser.setPassword1(user1.get().getPassword());
+            existingUser.setPassword1(existingUser.getPassword1());
              userRepository.save(existingUser);
              return UserDtoConvertion.convertUser(existingUser);
         }
@@ -95,10 +92,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         throw new CommonException("Ilgili ID user bulunamadi . ID: " + id , HttpStatus.NOT_FOUND);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email).orElseThrow(()->{
-            throw new UsernameNotFoundException("User bilgileri sistemde yok . ");
-        });
-    }
+//    @Override
+//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+//        return userRepository.findByEmail(email).orElseThrow(()->{
+//            System.out.println("User bilgileri sistemde yok. ");
+//            return new UsernameNotFoundException("User bilgileri sistemde yok . ");
+//        });
+//    }
 }

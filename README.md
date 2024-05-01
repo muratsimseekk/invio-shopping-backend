@@ -20,6 +20,6 @@ User-Address : OneToMany relation,
 
 Basket(Order)-Product : OneToMany relation olacak sekilde tablo baglantilari yapildi . 
 
-POSTMAN : [<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://null.postman.co/collection/30679926-7581d746-235d-47ab-93e1-efb9bccd96af?source=rip_markdown)
+POSTMAN linki : [<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://null.postman.co/collection/30679926-7581d746-235d-47ab-93e1-efb9bccd96af?source=rip_markdown)
 
 ![](/Users/muratsimsek/Desktop/Screenshot 2024-05-01 at 21.29.20.png)

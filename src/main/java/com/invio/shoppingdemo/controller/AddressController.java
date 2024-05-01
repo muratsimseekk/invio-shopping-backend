@@ -16,7 +16,6 @@ import java.util.List;
 public class AddressController {
 
     private AddressService addressService;
-    private UserService userService;
 
     @GetMapping("/")
     public List<AddressResponse> findAll(){
@@ -28,16 +27,14 @@ public class AddressController {
         return addressService.findById(id);
     }
 
+    //Address save ederken user ID si de girilmeli.
     @PostMapping("/{id}")
-    public AddressResponse save(@RequestBody Address address ,@PathVariable Long id){
+    public AddressResponse save(@RequestBody Address address ,@PathVariable Long userId){
 
-        User user =userService.findByUserId(id);
-
-        user.getAddressList().add(address);
-        address.setUser(user);
-
-        return addressService.save(address);
+        return addressService.save(address, userId);
     }
+
+    //Address update ederken yine userID girilmesi gerekli.
 
     @PutMapping("/{id}")
     public AddressResponse update(@PathVariable Long id ,@RequestBody Address address){

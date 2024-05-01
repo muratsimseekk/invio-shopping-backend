@@ -32,12 +32,14 @@ public class BasketController {
         return basketService.delete(id);
     }
 
+    //URL de basket id ve productID girilerek bir sepet icerisine urun eklemesi yapilir .
     @PostMapping("/{basketID}/addToCart/{productID}")
     public BasketResponse addToCart(@PathVariable Long basketID, @PathVariable Long productID){
 
         return basketService.addToCart(basketID, productID);
     }
 
+    //URL de basket id ve productID girilerek bir sepet icerisinden urun silinmesi yapilir .
     @DeleteMapping("/{basketID}/removeFromCart/{productID}")
     public BasketResponse removeFromCart(@PathVariable Long basketID, @PathVariable Long productID){
         return basketService.removeFromCart(basketID, productID);

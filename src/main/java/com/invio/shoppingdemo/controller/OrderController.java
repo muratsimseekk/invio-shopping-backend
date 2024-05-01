@@ -18,26 +18,19 @@ import java.util.List;
 public class OrderController {
 
     private OrderService orderService;
-    private BasketService basketService;
 
     @GetMapping("/")
     public  List<OrderResponse> findAll(){
         return orderService.findAll();
     }
 
+    // Olusturulan sepetin id si girildiginde post islemi ile siparis verilecek .
     @PostMapping("/{basketID}")
     public OrderResponse save(@RequestBody OrderEn orderEn, @PathVariable Long basketID){
-
-        //TODO BasketID ile basketi bul ve order icerisine kaydet .
-
-        Basket basket = basketService.findByBasketId(basketID);
-
-        orderEn.setBasket(basket);
-        basket.setOrderEn(orderEn);
-
-        return orderService.save(orderEn);
+       return orderService.save(orderEn, basketID);
     }
 
+    //Order silmeye gerek yok silinmesi mantikli olmaz ancak projede calisma amacli konuldu bu method .
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Long id){
          orderService.delete(id);

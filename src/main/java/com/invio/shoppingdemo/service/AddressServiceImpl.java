@@ -2,8 +2,10 @@ package com.invio.shoppingdemo.service;
 
 import com.invio.shoppingdemo.dto.AddressResponse;
 import com.invio.shoppingdemo.entity.Address;
+import com.invio.shoppingdemo.entity.User;
 import com.invio.shoppingdemo.exceptions.CommonException;
 import com.invio.shoppingdemo.repository.AddressRepository;
+import com.invio.shoppingdemo.repository.UserRepository;
 import com.invio.shoppingdemo.util.AddressDtoConvertion;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class AddressServiceImpl implements AddressService{
 
     private AddressRepository addressRepository;
+    private UserRepository userRepository;
 
     @Override
     public List<AddressResponse> findAll() {
@@ -34,10 +37,17 @@ public class AddressServiceImpl implements AddressService{
     }
 
     @Override
-    public AddressResponse save(Address address) {
+    public AddressResponse save(Address address, Long id) {
+        User user = userRepository.findById(id).orElseThrow(
+                ()-> new CommonException("Girilen id de User bulunamadi . ID: " +id , HttpStatus.NOT_FOUND));
+
+        user.getAddressList().add(address);
+        address.setUser(user);
         addressRepository.save(address);
         return AddressDtoConvertion.convertAddress(address);
     }
+
+
 
 
 

@@ -61,6 +61,8 @@ public class BasketServiceImpl implements BasketService{
         throw new CommonException("Ilgili ID de Basket bulunamadi. ID : " +id , HttpStatus.NOT_FOUND);
     }
 
+    //Her bir ekleme yapildiginda urun sayisi 0 veya null ise 1 e ceker , degilse 1 artirir .
+
     @Override
     public BasketResponse addToCart(Long basketID, Long productID) {
         Basket basket = basketRepository.findById(basketID)
@@ -90,7 +92,7 @@ public class BasketServiceImpl implements BasketService{
         return BasketDtoConvertion.converBasket(basket);
     }
 
-
+    //Her bir cikarma yapildiginda urun sayisi urun sayisi 1 olana kadar urun sepette kalir(sayisi azalir) eger 1 olursa sepetten silinir.
     @Override
     public BasketResponse removeFromCart(Long basketID, Long productID) {
         Basket basket = basketRepository.findById(basketID)

@@ -9,7 +9,7 @@ public interface AddressService {
 
     List<AddressResponse> findAll();
     AddressResponse findById(Long id);
-    AddressResponse save(Address address);
+    AddressResponse save(Address address , Long id) ;
     AddressResponse update(Long id,Address address);
     AddressResponse delete(Long id);
 

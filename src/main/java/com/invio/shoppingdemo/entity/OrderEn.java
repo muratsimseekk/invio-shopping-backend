@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "order" , schema = "shopping")
 public class OrderEn {
 
+    //Order isminde Spring in kendi dosyalari oldugundan karistirilmamasi icin OrderEn Entity ismi tercih edildi.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

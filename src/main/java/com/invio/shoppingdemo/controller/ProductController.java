@@ -36,6 +36,7 @@ public class ProductController {
         return productService.delete(id);
     }
 
+    //URL ye girilecek param degeri "asc" ve "desc" girilerek artan azalan islemleri yapilir.
     @GetMapping("/param")
     public List<ProductResponse> sortByPrice(@RequestParam String sort){
         return productService.determineSorting(sort);
